@@ -1,0 +1,86 @@
+# Importing Data {#import}
+
+## Load data - hello world example
+
+The Base R package contains several built-in datasets as part of the `datasets` package. Details of each dataset can be viewed as follows.
+
+```{r message=FALSE, warning=FALSE}
+library(help = "datasets")
+```
+
+One common example is the mtcars data and can be presented in table format as follows.
+
+```{r}
+cars <- mtcars
+```
+
+```{r nice-tab-cars, message=FALSE, warning=FALSE, tidy=FALSE}
+
+knitr::kable(
+  head(cars, 5), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+
+```
+
+## Load csv files
+
+A common file format for data is a csv file. The **readr** package can be used to load these into RStudio.
+
+```{r message=FALSE, warning=FALSE}
+  dat <- read_csv(here::here("data", "mtcars.csv")) 
+```
+
+Now we'll review the first five rows of the newly imported csv data.
+
+```{r nice-tab-cars-csv, tidy=FALSE}
+
+knitr::kable(
+  head(dat, 5), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+
+```
+
+
+
+## Download and extract data
+
+
+```{r eval=FALSE, include=FALSE}
+ # Create a list of web URLS to download the data
+  urls <- c("https://www.data.brisbane.qld.gov.au/data/dataset/09a0fadf-1f4b-4ebc-ada1-34a78675be85/resource/15bc533a-efdb-4c13-8779-bb853b2eccf5/download/flood-creek-study-perrin-creek-metadata.csv",
+            "https://www.stats.govt.nz/assets/Uploads/2018-Census-totals-by-topic/Download-data/2018-census-totals-by-topic-national-highlights-csv.zip")
+  
+    
+   # Download
+  for(i in 1:length(urls)){
+    
+    download.file(url = urls[i], here::here("data", basename(urls[i])))
+    
+    if(strsplit(basename(urls[i]), split="\\.")[[1]][2] == "zip"){
+      
+      unzip(here::here("data", basename(urls[i])), 
+            exdir = here::here("data"))
+      
+    }
+    
+  }
+
+ # Extract
+  
+  # Create an empty list object to extract the data into
+  dat_list <- list()
+  
+  files_csv <- list.files(here::here("data"), pattern = ".csv$")
+  
+  # Now loop through the file names and extract to dat_list
+  for(i in  1:length(files_csv)){
+    
+    dat_list[[i]] <- read_csv(here::here("data", files_csv[i]))
+    names(dat_list)[i] <- gsub(".csv", "", files_csv[i])
+    
+  }
+
+```
+ 

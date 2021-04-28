@@ -1,0 +1,14 @@
+--- 
+title: "R Tips"
+author: "Nick Dawe"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+github-repo: towananalytics/RTips_Book
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+# About this book
+
+This book is not about machine learning, it's not about analytics, it is about data workflows and project management within the R environment. The book is created with reproducible workflows in mind.

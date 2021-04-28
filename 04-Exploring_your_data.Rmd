@@ -1,0 +1,21 @@
+# Exploring Your Data {#explore}
+So we've imported some data and now we need to look at it to understand more about it.
+
+## Exploratory Data Analysis
+
+```{r}
+summary(mtcars)
+```
+
+
+```{r}
+library(dplyr)
+glimpse(mtcars)
+str(mtcars)
+```
+
+```{r}
+library(Hmisc)
+describe(mtcars)
+```
+

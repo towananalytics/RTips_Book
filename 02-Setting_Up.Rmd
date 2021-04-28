@@ -1,0 +1,58 @@
+# Setting Up The Project Environment {#setup}
+
+## Where Are We - We are **here**!
+
+The importance of reproducible research can be read elsewhere, but I cant stress the importance of consistent file management.
+
+Often work is done in a collaborative manner or on multiple workstations, shared drives etc.
+
+One extremely useful tool in reproducibility and consistency is the **here** package. The here package identifies the root folder and can be used for referencing without the need for absolute referencing.
+
+For example the folder structure for this book is contained in my C: drive and synced with Github, but if I was collaborating with others and used the following absolute reference, it wouldn't work anywhere other than my own computer:
+
+    "C:/Users/nick.dawe/Documents/R Projects Via Git/R Tips - Bookdown Proj"
+
+This is where the **here** package is so useful.
+
+```{r message=FALSE, warning=FALSE, class.source="bg-success"}
+library(here)
+here()
+```
+You can use **here** to create various paths as follows -> `here::here("data")`. This code block points to the folder `data` which does not exist (yet).
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+dir.create("data")
+write.csv(mtcars, here::here("data", "mtcars.csv"))
+```
+## Standard Folder Structure
+
+I like to standardise my folder structure at the highest level. This allows me to reuse code across projects without worrying about file referencing - especially when using the `here()` function.
+
+
+```{r}
+  here::here()
+```
+
+I suggest the following folder names as a minimum - I have not invented this structure myself, but it does form the basic structure for every project I undertake.
+
+```{r set_folder_names}
+  folder_names <- c("analysis", # To store RMarkdown documents - I also have a sub folder here called 'figures'
+                    "data", # Where the raw data is stored - NEVER store processed data here! 
+                    "doc", # Any non R documentation you prepare (.docx reports as needed). I need this, you might not. 
+                    "ext", # External information (reference papers, reports etc.)
+                    "output", # Processed data
+                    "prod", # Production - this is where I store my Shiny apps (usually under a sub folder called "Shiny")
+                    "src" # Source code - .R files
+                    )
+```
+
+Using the vector of `folder_names` we can loop through each item to create the corresponding folder in the home directory. 
+
+```{r create_folders, message=FALSE, warning=FALSE}
+for(i in seq_along(folder_names)){
+  dir.create(folder_names[i])
+}
+```
+
+I have written a [package](https://github.com/towananalytics/tatools) containing useful functions for improving project workflow - one of which creates the standard project folder structure above.
